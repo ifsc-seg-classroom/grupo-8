@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: vault-integration
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      token: PLACEHOLDER
+      scheme: http
+      kv:
+        enabled: true
+        backend: secret
+        application-name: api-keys/producao
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env
+
+server:
+  port: 8080

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault Demo</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Password Vault - Teste de Aplicação</h1>
+    <div class="card">
+        <h2>Segredo</h2>
+        <p>Pega o segredo total</p>
+        <button id="getFullSecret">Buscar</button>
+        <div id="fullSecretResult" class="result"></div>
+    </div>
+    <div class="card">
+        <h2>API Key</h2>
+        <p>Pega apenas a chave de API do segredo</p>
+        <button id="getApiKey">Buscar</button>
+        <div id="apiKeyResult" class="result"></div>
+    </div>
+    <div class="card">
+        <h2>Metadados</h2>
+        <p>Pega apenas os metadados do segredo</p>
+        <button id="getMetadata">Buscar</button>
+        <div id="metadataResult" class="result"></div>
+    </div>
+</div>
+<script>
+    document.querySelector('#getFullSecret').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/api/v1/vault/full-secret');
+            const data = await response.json();
+            document.querySelector('#fullSecretResult').innerHTML =
+                `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        } catch (error) {
+            document.querySelector('#fullSecretResult').innerHTML =
+                `<p class="error">Error: ${error.message}</p>`;
+        }
+    });
+
+    document.querySelector('#getApiKey').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/api/v1/vault/api-key');
+            const key = await response.text();
+            document.querySelector('#apiKeyResult').innerHTML =
+                `<pre>${key}</pre>`;
+        } catch (error) {
+            document.querySelector('#apiKeyResult').innerHTML =
+                `<p class="error">Error: ${error.message}</p>`;
+        }
+    });
+
+    document.querySelector("#getMetadata").addEventListener('click', async () => {
+       try {
+           const response = await fetch("/api/v1/vault/metadata");
+           const data = await response.json();
+           document.querySelector('#metadataResult').innerHTML =
+               `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+       } catch (error) {
+           document.querySelectorAll('#metadataResult').innerHTML =
+               `<p class="error">Error: ${error.message}`
+       }
+    });
+</script>
+</body>
+</html>

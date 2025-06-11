@@ -1,21 +1,24 @@
 # Demonstração Prática: Acessando Segredos Armazenados em um Password Vault
 
-## Introdução
-
-Nesta demonstração, mostrarei como uma aplicação pode acessar com segurança um segredo armazenado em um password vault, simulando um cenário real onde uma aplicação precisa acessar uma chave API sem expô-la diretamente aos desenvolvedores ou usuários finais. Utilizaremos o HashiCorp Vault, uma solução popular para gerenciamento de segredos, e Docker para criar um ambiente isolado sem necessidade de privilégios administrativos no sistema principal.
-
 ## Pré-requisitos
 
 - Docker instalado na máquina
 - Terminal/linha de comando
 - Conexão com a internet para baixar as imagens Docker
 - "bin/sh ou bash"
+- Clone o repositorio
 
 ## Passo a Passo
 
+### 0. Clone o repositorio
+```bash
+# Isso sera utilizado no futuro
+git clone https://github.com/jesse-rr/pv.git
+```
+
 ### 1. Configurar o ambiente com Docker
 
-Primeiro, vamos criar um contêiner Docker com o HashiCorp Vault:
+Cria um contêiner Docker com o HashiCorp Vault:
 
 ```bash
 # [opcional] - Para uso fora de "sudo"
@@ -47,7 +50,9 @@ docker logs dev-vault | grep "Root Token:"
 
 ### 3. Armazenar uma chave API no Vault
 
-Vamos usar a CLI do Vault dentro do contêiner para armazenar nossa chave API:
+Como admin, entramos com bash no container na CLI do Vault para armazenar nossa chave API:
+<br>
+**_OBS:_**  Coloque o token obtido acima no primeiro _PLACEHOLDER_ & altere o segundo _PLACEHOLDER_ com uma chave propria.
 
 ```bash
 # Acessar o shell do contêiner
@@ -58,7 +63,7 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 export VAULT_TOKEN='PLACEHOLDER'
 
 # Armazenar uma chave API secreta (ex: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6")
-vault kv put secret/api-keys/producao key="a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
+vault kv put secret/api-keys/producao key="PLACEHOLDER"
 ```
 <details>
   <summary>Imagem Guia</summary>
@@ -81,6 +86,7 @@ EOF
 # Aplicar a política
 vault policy write api-reader api-policy.hcl
 ```
+
 <details>
   <summary>Imagem Guia</summary>
 
@@ -93,6 +99,7 @@ vault policy write api-reader api-policy.hcl
 # Criar token com a política api-reader
 vault token create -policy="api-reader" -ttl=24h
 ```
+
 <details>
   <summary>Imagem Guia</summary>
   
@@ -101,18 +108,38 @@ vault token create -policy="api-reader" -ttl=24h
   ![image](https://github.com/user-attachments/assets/8cd48a49-38b5-46fe-8579-56ed47311bec)
 </details>
 
-Anote o token gerado - este será usado pela aplicação.
+<br>
+
+**_OBS:_** Anote o token gerado - este será usado pela aplicação.
 
 ### 6. Simular uma aplicação acessando o segredo
 
-Vamos utilizar o curl para simular um request de outra aplicação.
+Vamos inciar o app do repositorio clonado, visite http://localhost:8080
 
+```bash
+# Entre no repositorio
+cd pv
+# Coloque o token no application.yml, salva e fecha.
+gedit src/main/resources/application.yml
+# Inicia app
+./gradlew bootRun
+```
+
+<details>
+  <summary>Imagem Guia</summary>
+    
+  ![image](https://github.com/user-attachments/assets/7434bd91-faf6-4352-be94-a5b86965b13b)
+  <br>
+  ![image](https://github.com/user-attachments/assets/bbcd677a-d0c1-441a-a796-5f6ce87f2f6f)
+</details>
+
+<details>
+  <summary>Opcao 2 - CLI</summary>
+    
 ```bash
 # Fora do container, no host Linux: OBS, se nao tiver "JQ", retire o "| jq" e use algo como: https://jsonformatter.curiousconcept.com
 curl -s --header "X-Vault-Token: PLACEHOLDER" http://localhost:8200/v1/secret/data/api-keys/producao | jq
 ```
-<details>
-  <summary>Imagem Guia</summary>
 
   ![image](https://github.com/user-attachments/assets/c942c189-83e8-4c3a-a667-9bcf0bbe8cfb)
 </details>
@@ -129,22 +156,7 @@ Utilizar a UI para demonstrar de melhor forma. Alterando os metadados obtidos & 
   ![image](https://github.com/user-attachments/assets/e6006e6e-ca35-45c5-883c-c9a37a50695e)
 </details>
 
-
-## Síntese dos Resultados
-
-Nesta demonstração conseguimos:
-
-1. Configurar rapidamente um ambiente de Vault usando Docker, sem necessidade de privilégios administrativos
-2. Armazenar com segurança uma chave API no Vault
-3. Criar políticas granulares de acesso
-4. Gerar tokens com permissões específicas (princípio do menor privilégio)
-5. Simular como uma aplicação pode acessar segredos sem tê-los hardcoded no código
-
-Os principais benefícios observados:
-
-- Segurança: A chave API nunca é exposta diretamente no código ou para desenvolvedores
-- Rastreabilidade: O Vault mantém logs de quem acessou qual segredo e quando
-- Gerenciamento centralizado: As chaves podem ser rotacionadas sem alterar o código da aplicação
-- Controle de acesso: Políticas granulares limitam o acesso apenas ao necessário
-
-Esta abordagem é superior à prática comum de armazenar segredos em variáveis de ambiente ou arquivos de configuração, pois oferece maior segurança e controle.
+### Referencias
+- Deepseek - Comandos para rodar em container, modo [dev] e formatação e erros de português.
+- hashicorp/vault - Imagem docker com configuração inicial - https://hub.docker.com/r/hashicorp/vault
+- Hashicorp Vault - Documentação principal - https://developer.hashicorp.com/vault
