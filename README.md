@@ -13,7 +13,7 @@
 ### 0. Clone o repositorio
 ```bash
 # Isso sera utilizado no futuro
-https://github.com/ifsc-seg-classroom/grupo-8.git
+git clone https://github.com/ifsc-seg-classroom/grupo-8.git
 ```
 
 ### 1. Configurar o ambiente com Docker
