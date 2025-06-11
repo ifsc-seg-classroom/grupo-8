@@ -59,8 +59,8 @@ docker exec -it dev-vault /bin/sh
 export VAULT_ADDR='http://127.0.0.1:8200'
 export VAULT_TOKEN='PLACEHOLDER'
 
-# Armazenar uma chave API secreta (ex: a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6")
-vault kv put secret/api-keys/producao key="PLACEHOLDER"
+# Armazenar uma chave API secreta (ex: fncx puof jioq eiss")
+vault kv put secret/api-keys/producao key="fncx puof jioq eiss"
 ```
 <details>
   <summary>Imagem Guia</summary>
