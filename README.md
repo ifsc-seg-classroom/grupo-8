@@ -13,7 +13,7 @@
 ### 0. Clone o repositorio
 ```bash
 # Isso sera utilizado no futuro
-git clone https://github.com/jesse-rr/pv.git
+https://github.com/ifsc-seg-classroom/grupo-8.git
 ```
 
 ### 1. Configurar o ambiente com Docker
@@ -118,7 +118,7 @@ Vamos inciar o app do repositorio clonado, visite http://localhost:8080
 
 ```bash
 # Entre no repositorio
-cd pv
+cd grupo-8
 # Coloque o token no application.yml, salva e fecha.
 gedit src/main/resources/application.yml
 # Inicia app
