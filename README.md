@@ -125,10 +125,6 @@ gedit src/main/resources/application.yml
 <details>
   <summary>Imagem Guia</summary>
     
-  ![image](https://github.com/user-attachments/assets/7434bd91-faf6-4352-be94-a5b86965b13b)
-  <br>
-  ![image](https://github.com/user-attachments/assets/bbcd677a-d0c1-441a-a796-5f6ce87f2f6f)
-  <br>
   ![image](https://github.com/user-attachments/assets/43352e16-c0db-49c4-99a0-a9145e986317)
 </details>
 
