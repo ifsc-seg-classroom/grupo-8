@@ -24,10 +24,7 @@ Cria um contêiner Docker com o HashiCorp Vault:
 # [opcional] - Para uso fora de "sudo"
 dockerd-rootless-setuptool.sh install
 
-# Baixar a imagem oficial do Vault
-docker pull hashicorp/vault
-
-# Executar o Vault em modo desenvolvimento (apenas para demonstração)
+# Puxa e executa o Vault em modo desenvolvimento (apenas para demonstração)
 docker run --cap-add=IPC_LOCK -d --name=dev-vault -p 8200:8200 hashicorp/vault server -dev
 ```
 
