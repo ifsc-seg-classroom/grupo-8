@@ -11,6 +11,22 @@ spring:
         backend: secret
         application-name: api-keys/producao
 
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    default-encoding: UTF-8
+    protocol: smtp
+    username: jessericardorogerio@gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+        starttls:
+          enable: true
+        ssl:
+          trust: smtp.gmail.com
+
 management:
   endpoints:
     web:

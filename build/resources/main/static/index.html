@@ -27,6 +27,24 @@
         <button id="getMetadata">Buscar</button>
         <div id="metadataResult" class="result"></div>
     </div>
+    <div class="card">
+        <h2>Utilizando a API KEY obtida</h2>
+        <p>Enviar email - Uso unico</p>
+        <div class="form-group">
+            <label for="emailAddress">Email Destino:</label>
+            <input type="email" id="emailAddress" placeholder="digite@email.com">
+        </div>
+        <div class="form-group">
+            <label for="emailSubject">Assunto:</label>
+            <input type="text" id="emailSubject" placeholder="Assunto do email">
+        </div>
+        <div class="form-group">
+            <label for="emailContent">Conteúdo:</label>
+            <textarea id="emailContent" placeholder="Conteúdo do email"></textarea>
+        </div>
+        <button id="sendEmail">Enviar Email</button>
+        <div id="emailResult" class="result"></div>
+    </div>
 </div>
 <script>
     document.querySelector('#getFullSecret').addEventListener('click', async () => {
@@ -64,6 +82,36 @@
                `<p class="error">Error: ${error.message}`
        }
     });
+    document.querySelector('#sendEmail').addEventListener('click', async () => {
+        const btn = document.querySelector('#sendEmail');
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/v1/vault/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    emailAddress: document.querySelector('#emailAddress').value,
+                    subject: document.querySelector('#emailSubject').value,
+                    content: document.querySelector('#emailContent').value
+                })
+            });
+
+            const result = await response.text();
+            document.querySelector('#emailResult').innerHTML = `<pre>${result}</pre>`;
+
+            if (response.ok) {
+                btn.textContent = "Email enviado (Uso Unico)";
+            } else {
+                btn.disabled = false;
+            }
+        } catch (error) {
+            document.querySelector('#emailResult').innerHTML =
+                `<p class="error">Error: ${error.message}</p>`;
+            btn.disabled = false;
+        }
+    });
+
 </script>
 </body>
 </html>

@@ -1,8 +1,11 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -29,5 +32,12 @@ public class VaultController {
     @GetMapping("/metadata")
     public Map<String, Object> getMetadata() {
         return vaultService.getMetadata();
+    }
+    
+    @PostMapping("/send-email")
+    public String sendEmail(
+            @RequestBody @Valid EmailRequestDTO requestDTO
+    ) throws MessagingException {
+        return vaultService.sendEmail(requestDTO);
     }
 }

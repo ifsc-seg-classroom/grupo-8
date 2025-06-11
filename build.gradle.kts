@@ -27,6 +27,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.apache.httpcomponents:httpclient:4.5.14")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 dependencyManagement {
